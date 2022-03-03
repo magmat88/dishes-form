@@ -1,10 +1,13 @@
-export function normalizeDuration(val: any, prevVal: any): any {
-  if (!val) {
-    return val;
+export function normalizeDuration(
+  value: string,
+  previousValue: string
+): string {
+  if (!value) {
+    return value;
   }
 
-  const onlyDigits = val.replace(/[^\d]/g, '');
-  if (!prevVal || val.length > prevVal.length) {
+  const onlyDigits: string = value.replace(/[^\d]/g, '');
+  if (!previousValue || value.length > previousValue.length) {
     if (onlyDigits.length === 2) {
       return `${onlyDigits}:`;
     }
@@ -21,5 +24,5 @@ export function normalizeDuration(val: any, prevVal: any): any {
   return `${onlyDigits.slice(0, 2)}:${onlyDigits.slice(
     2,
     4
-  )}:${onlyDigits.slice(4, 7)}`;
+  )}:${onlyDigits.slice(4, 6)}`;
 }

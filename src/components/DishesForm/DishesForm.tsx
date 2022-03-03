@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { reduxForm, Field } from 'redux-form';
-import {normalizeDuration} from '../../utils/normalizeDuration';
+import { normalizeDuration } from '../../utils/dishesFormNormalization';
+import { validateDishesForm } from '../../utils/dishesFormValidation';
+import { showDishesFormWarnings } from '../../utils/dishesFormWarnings';
 import './DishesForm.scss';
 
 interface DishesFormProps {
-  handleSubmit: () => any;
+  handleSubmit: (values: any) => any;
   reset: () => any;
   pristine: any;
   submitting: any;
@@ -14,7 +16,9 @@ interface RenderTextOrNumberFieldProps {
   input: any;
   label: any;
   type: any;
-  step: number;
+  max: number | undefined;
+  min: number | undefined;
+  step: number | undefined;  
   className: string;
   meta: { touched: any; error: any; warning: any };
 }
@@ -23,19 +27,11 @@ interface RenderRangeFieldProps {
   input: any;
   label: any;
   type: any;
-  step: number;
+  step: number | undefined;
   className: string;
-  max: number;
-  min: number;
+  max: number | undefined;
+  min: number | undefined;
   meta: { touched: any; error: any; warning: any };
-}
-
-interface DishFormValidateProps {
-  values: any;
-}
-
-interface WarnProps {
-  values: any;
 }
 
 function renderTextOrNumberField({
@@ -43,7 +39,9 @@ function renderTextOrNumberField({
   label,
   type,
   className,
-  step,
+  step=undefined,
+  max=undefined,
+  min=undefined,
   meta: { touched, error, warning },
 }: RenderTextOrNumberFieldProps): JSX.Element {
   return (
@@ -94,96 +92,6 @@ function renderRangeField({
       </div>
     </div>
   );
-}
-
-function dishFormValidate({ values }: any): any {
-  const errors: any = {};
-  if (!values.name) {
-    errors.name = 'Required';
-  } else if (values.name.length < 3) {
-    errors.name = 'Name must contain of 3 characters or more';
-  }
-  // TODO: validate format of time 0:00:00
-  if (!values.preparation_time) {
-    errors.preparation_time = 'Required';
-  } else if (isNaN(Number(values.preparation_time))) {
-    errors.preparation_time = 'No of slices must be a number';
-  } else if (!Number.isInteger(values.preparation_time)) {
-    errors.preparation_time = 'No of slices must be an integer';
-  } else if (Number(values.preparation_time) < 2) {
-    errors.preparation_time = 'No of slices must be at least 1';
-  }
-
-  if (!values.type) {
-    errors.type = 'Required';
-  }
-
-  if (values.type === 'pizza') {
-    if (!values.no_of_slices) {
-      errors.no_of_slices = 'Required';
-    } else if (isNaN(Number(values.no_of_slices))) {
-      errors.no_of_slices = 'No of slices must be a number';
-    } else if (!Number.isInteger(values.no_of_slices)) {
-      errors.no_of_slices = 'No of slices must be an integer';
-    } else if (Number(values.no_of_slices) < 2) {
-      errors.no_of_slices = 'No of slices must be at least 1';
-    }
-
-    if (!values.diameter) {
-      errors.diameter = 'Required';
-    } else if (isNaN(Number(values.diameter))) {
-      errors.diameter = 'Diameter must be a number';
-    } else if (Number(values.diameter.toFixed(1)) !== Number(values.diameter)) {
-      errors.diameter = 'Diameter must be rounded to one decimal place';
-    }
-  }
-
-  if (values.type === 'soup') {
-    if (!values.spiciness_scale) {
-      errors.spiciness_scale = 'Required';
-    }
-  }
-
-  if (values.type === 'sandwich') {
-    if (!values.slices_of_bread) {
-      errors.slices_of_bread = 'Required';
-    } else if (isNaN(Number(values.slices_of_bread))) {
-      errors.slices_of_bread = 'Slices of bread must be a number';
-    } else if (!Number.isInteger(values.slices_of_bread)) {
-      errors.slices_of_bread = 'No of slices of bread must be an integer';
-    }
-  }
-
-  return errors;
-}
-
-function warn({ values }: WarnProps): any {
-  const warnings: any = {};
-  // TODO - check if it is enough time - wytnij minuty ze stringu
-  if (values.preparation_time) {
-    warnings.preparation_time =
-      'It seems to be not enough time to prepare a meal';
-  }
-
-  if (Number(values.diameter) < 15.0) {
-    warnings.diameter = 'Diameter seems to be too small';
-  }
-
-  if (Number(values.diameter) > 50.0) {
-    warnings.diameter = 'Diameter seems to be exceeding the width of the oven';
-  }
-
-  if (Number(values.slices_of_bread) < 2) {
-    warnings.slices_of_bread =
-      'It seems to be not enough slices of bread to prepare a sandwich';
-  }
-
-  if (Number(values.slices_of_bread) > 10) {
-    warnings.slices_of_bread =
-      'It seems to be too many slices of bread to prepare a single sandwich';
-  }
-
-  return warnings;
 }
 
 function renderFormFieldsByDishType(dishType: string): any {
@@ -316,6 +224,16 @@ function DishesForm({
 
 DishesForm = reduxForm({
   form: 'dishesForm',
+  // validateDishesForm,
+  // showDishesFormWarnings,
+  // normalizeDuration
 })(DishesForm as any);
 
 export default DishesForm;
+
+// export default reduxForm({
+//   form: 'dishesForm',
+//   // validateDishesForm,
+//   // showDishesFormWarnings,
+//   // normalizeDuration
+// })(DishesForm)
