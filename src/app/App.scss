@@ -1,0 +1,12 @@
+@import "../styles/mixins/mixins.scss";
+@import "../styles/placeholders/placeholders.scss";
+@import "../styles/variables/variables.scss";
+
+.app {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    font-family: $font_default;
+}

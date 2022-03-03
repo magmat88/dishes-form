@@ -1,0 +1,28 @@
+//TODO: fonts in rem
+
+%textHeader {
+    font-size: 40px;
+    font-weight: 600;
+    text-align: center;
+}
+
+%textDescription {
+    font-size: 22px;
+    line-height: 37px;
+}
+
+%textStandard {
+    font-size: 24px;
+    line-height: 37px;
+    text-align: center;
+}
+
+%textLabel {
+    text-transform: uppercase;
+    font-weight: 700;
+    width: 100%;
+}
+
+%textWarning {
+    color: $color_contrast
+}
