@@ -1,4 +1,14 @@
-export function validateDishesForm({ values }: any) {
+interface Errors {
+  name?: string;
+  preparation_time?: string;
+  type?: string;
+  no_of_slices?: string;
+  diameter?: string;
+  spiciness_scale?: string;
+  slices_of_bread?: string;
+  values?: any;
+}
+export function validateDishesForm({ values }: Errors) {
   const errors: any = {};
   if (!values.name) {
     errors.name = 'Required';

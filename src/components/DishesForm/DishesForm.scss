@@ -2,16 +2,89 @@
 @import "../../styles/placeholders/placeholders.scss";
 @import "../../styles/variables/variables.scss";
 
-.btn {
-    @extend %btn;
-}
+.dishesForm {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: flex-start;
+    width: 80%;
+    // border: 1px solid  green;
+    height: 550px;
 
-.btn--white {
-    @extend %btnWhite;
+    .dishesForm__fields {
+        // height: 500px;
+    }
 
-}
+    .dishesForm__field {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        width: 100%;
+        margin: 0 0 20px 0;
+    }
 
-.btn--contrast {
-    @extend %btnContrast;
+    .dishesForm__label {
+        font-size: 0.8rem;
+        padding: 5px 0;
+    }
 
+    .dishesForm__label--standard {
+        color: $color_grey;
+    }
+
+    .dishesForm__label--focused {
+        color: $color_contrast;
+    }
+
+    .dishesForm__label--alert {
+        color: $color_alert;
+    }
+
+    .dishesForm__input {
+        font-size: 1.2rem;
+        padding: 10px;
+        border-radius: 5px;
+        border: 2px solid;
+    }
+
+    .dishesForm__input--standard {
+        border-color: $color_light-grey;
+        color: $color_grey;
+    }
+
+    .dishesForm__input--focused {
+        border-color: $color_contrast;
+        color: $color_contrast;
+    }
+
+    .dishesForm__input--without-label {
+        margin-top: 45px;
+    }
+
+    .dishesForm__input--alert {
+        border-color: $color_alert;
+        color: $color_alert;
+
+    }
+
+    .dishesForm__btns {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .btn {
+        @extend %btn;
+    }
+
+    .btn--light {
+        // @extend %btnLight;
+    }
+
+    .btn--contrast {
+        // @extend %btnContrast;
+    }
+
+    .btn--hidden {
+        display: none;
+    }
 }

@@ -1,3 +1,25 @@
+export function normalizeDiameter(value: string): string {
+  if (!value) {
+    return value;
+  }
+  const floatNumber = value.replace(/[^0-9.]/g, '');
+  const splitSections = floatNumber.split('.');
+
+  if (splitSections[0] !== '0' && splitSections[0] !== '00') {
+    splitSections[0] = splitSections[0].replace(/^0+/, '');
+  } else {
+    splitSections[0] = '0';
+  }
+
+  if (splitSections[1]) {
+    return splitSections[0] + '.' + splitSections[1].slice(0, 2);
+  } else if (floatNumber.indexOf('.') !== -1) {
+    return splitSections[0] + '.';
+  } else {
+    return splitSections[0];
+  }
+}
+
 export function normalizeDuration(
   value: string,
   previousValue: string
@@ -42,29 +64,4 @@ export function normalizeNumberOfSlices(
     }
   }
   return onlyDigits;
-}
-
-export function normalizeDiameter(
-  value: string,
-  previousValue: string
-): string {
-  if (!value) {
-    return value;
-  }
-  const floatNumber =value.replace(/[^0-9.]/g, '');
-  const splitSections = floatNumber.split('.');
-
-  if (splitSections[0] !== '0' && splitSections[0] !== '00') {
-    splitSections[0] = splitSections[0].replace(/^0+/, '');
-  } else {
-    splitSections[0] = '0';
-  }
-
-  if (splitSections[1]) {
-    return splitSections[0] + '.' + splitSections[1].slice(0, 2);
-  } else if (floatNumber.indexOf('.') !== -1) {
-    return splitSections[0] + '.';
-  } else {
-    return splitSections[0];
-  }
 }

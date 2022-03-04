@@ -12,10 +12,10 @@ interface DishesFormProps {
   submitting: any;
 }
 
-function RenderFormInput(field: any): any {
+function RenderDishesFormInput(field: any): any {
   return (
-    <div>
-      <label>{field.label}</label>
+    <div className="dishesForm__field">
+      <label className="dishesForm__label dishesForm__label--standard">{field.label}</label>
       <input
         {...field.input}
         type={field.type}
@@ -23,6 +23,7 @@ function RenderFormInput(field: any): any {
         max={field?.max}
         min={field?.min}
         step={field?.step}
+        className="dishesForm__input dishesForm__input--standard"
       />
       {field.meta.touched && <p className="text--danger">{field.meta.error}</p>}
     </div>
@@ -36,20 +37,20 @@ function renderFormFieldsByDishType(dishType: string): any {
         return (
           <section>
             <Field
-              className="form__input"
-              component={RenderFormInput}
+              component={RenderDishesFormInput}
               name="no_of_slices"
-              placeholder="# of slices"
+              placeholder="1"
+              label="# of slices"
               type="text"
               normalize={normalizeNumberOfSlices}
 
             />
 
             <Field
-              className="form__input"
-              component={RenderFormInput}
+              component={RenderDishesFormInput}
               name="diameter"
-              placeholder="diameter"
+              placeholder="15.00"
+              label="Diameter"
               type="text"
               normalize={normalizeDiameter}
             />
@@ -59,8 +60,7 @@ function renderFormFieldsByDishType(dishType: string): any {
         return (
           <section>
             <Field
-              className="form__input"
-              component={RenderFormInput}
+              component={RenderDishesFormInput}
               max="10"
               min="1"
               name="spiciness_scale"
@@ -74,10 +74,10 @@ function renderFormFieldsByDishType(dishType: string): any {
         return (
           <section>
             <Field
-              className="form__input"
-              component={RenderFormInput}
+              component={RenderDishesFormInput}
               name="slices_of_bread"
               label="Number of slices of bread required"
+              placeholder="2"
               type="text"
               normalize={normalizeNumberOfSlices}
             />
@@ -103,18 +103,18 @@ function DishesForm({
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="dishesForm">
+      <section className="dishesForm__fields">
       <Field
-        className="form__input"
-        component={RenderFormInput}
+        component={RenderDishesFormInput}
         name="name"
+        placeholder="Example name"
         label="Dish name"
         type="text"
       />
 
       <Field
-        className="form__input"
-        component={RenderFormInput}
+        component={RenderDishesFormInput}
         name="preparation_time"
         label="Preparation time"
         type="text"
@@ -124,7 +124,7 @@ function DishesForm({
       />
 
       <Field
-        className="form__input"
+        className="dishesForm__field dishesForm__input dishesForm__input--standard dishesForm__input--without-label"
         component="select"
         name="type"
         onChange={handleDishTypeInputChange}
@@ -136,12 +136,14 @@ function DishesForm({
       </Field>
 
       {renderFormFieldsByDishType(dishType)}
-
-      <div>
+      </section>
+    
+      {/* buttons hidden if fields are invalid */}
+      <section className="dishesForm__btns">
         <button
           type="submit"
           disabled={submitting}
-          className="btn btn--contrast"
+          className="btn btn--contrast btn--hidden"
         >
           Submit
         </button>
@@ -149,11 +151,11 @@ function DishesForm({
           type="button"
           onClick={reset}
           disabled={pristine || submitting}
-          className="btn btn--white"
+          className="btn btn--light btn--hidden"
         >
           Reset
         </button>
-      </div>
+      </section>
     </form>
   );
 }
