@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { reduxForm, Field } from 'redux-form';
-import { normalizeDuration } from '../../utils/dishesFormNormalization';
+import { normalizeDuration, normalizeNumberOfSlices, normalizeDiameter } from '../../utils/dishesFormNormalization';
 import { validateDishesForm } from '../../utils/dishesFormValidation';
 import { showDishesFormWarnings } from '../../utils/dishesFormWarnings';
 import './DishesForm.scss';
@@ -12,84 +12,19 @@ interface DishesFormProps {
   submitting: any;
 }
 
-interface RenderTextOrNumberFieldProps {
-  input: any;
-  label: any;
-  type: any;
-  max: number | undefined;
-  min: number | undefined;
-  step: number | undefined;  
-  className: string;
-  meta: { touched: any; error: any; warning: any };
-}
-
-interface RenderRangeFieldProps {
-  input: any;
-  label: any;
-  type: any;
-  step: number | undefined;
-  className: string;
-  max: number | undefined;
-  min: number | undefined;
-  meta: { touched: any; error: any; warning: any };
-}
-
-function renderTextOrNumberField({
-  input,
-  label,
-  type,
-  className,
-  step=undefined,
-  max=undefined,
-  min=undefined,
-  meta: { touched, error, warning },
-}: RenderTextOrNumberFieldProps): JSX.Element {
+function RenderFormInput(field: any): any {
   return (
     <div>
-      <label>{label}</label>
-      <div>
-        <input
-          {...input}
-          placeholder={label}
-          type={type}
-          className={className}
-          step={step}
-        />
-        {touched &&
-          ((error && <span>{error}</span>) ||
-            (warning && <span>{warning}</span>))}
-      </div>
-    </div>
-  );
-}
-
-function renderRangeField({
-  input,
-  label,
-  type,
-  className,
-  max,
-  min,
-  step,
-  meta: { touched, error, warning },
-}: RenderRangeFieldProps): JSX.Element {
-  return (
-    <div>
-      <label>{label}</label>
-      <div>
-        <input
-          {...input}
-          placeholder={label}
-          type={type}
-          className={className}
-          step={step}
-          max={max}
-          min={min}
-        />
-        {touched &&
-          ((error && <span>{error}</span>) ||
-            (warning && <span>{warning}</span>))}
-      </div>
+      <label>{field.label}</label>
+      <input
+        {...field.input}
+        type={field.type}
+        placeholder={field?.placeholder}
+        max={field?.max}
+        min={field?.min}
+        step={field?.step}
+      />
+      {field.meta.touched && <p className="text--danger">{field.meta.error}</p>}
     </div>
   );
 }
@@ -102,20 +37,21 @@ function renderFormFieldsByDishType(dishType: string): any {
           <section>
             <Field
               className="form__input"
-              component={renderTextOrNumberField}
+              component={RenderFormInput}
               name="no_of_slices"
               placeholder="# of slices"
-              step="1"
-              type="number"
+              type="text"
+              normalize={normalizeNumberOfSlices}
+
             />
 
             <Field
               className="form__input"
-              component={renderTextOrNumberField}
+              component={RenderFormInput}
               name="diameter"
               placeholder="diameter"
-              step="0.01"
-              type="number"
+              type="text"
+              normalize={normalizeDiameter}
             />
           </section>
         );
@@ -124,7 +60,7 @@ function renderFormFieldsByDishType(dishType: string): any {
           <section>
             <Field
               className="form__input"
-              component={renderRangeField}
+              component={RenderFormInput}
               max="10"
               min="1"
               name="spiciness_scale"
@@ -139,11 +75,11 @@ function renderFormFieldsByDishType(dishType: string): any {
           <section>
             <Field
               className="form__input"
-              component={renderTextOrNumberField}
+              component={RenderFormInput}
               name="slices_of_bread"
               label="Number of slices of bread required"
-              step="1"
-              type="number"
+              type="text"
+              normalize={normalizeNumberOfSlices}
             />
           </section>
         );
@@ -156,7 +92,7 @@ function DishesForm({
   reset,
   pristine,
   submitting,
-}: DishesFormProps): JSX.Element {
+}: DishesFormProps): any {
   const [dishType, setDishType] = useState<string>('');
   // useEffect({}, [dishType]);
 
@@ -170,7 +106,7 @@ function DishesForm({
     <form onSubmit={handleSubmit}>
       <Field
         className="form__input"
-        component={renderTextOrNumberField}
+        component={RenderFormInput}
         name="name"
         label="Dish name"
         type="text"
@@ -178,7 +114,7 @@ function DishesForm({
 
       <Field
         className="form__input"
-        component="input"
+        component={RenderFormInput}
         name="preparation_time"
         label="Preparation time"
         type="text"
@@ -200,7 +136,7 @@ function DishesForm({
       </Field>
 
       {renderFormFieldsByDishType(dishType)}
-      
+
       <div>
         <button
           type="submit"
@@ -222,18 +158,17 @@ function DishesForm({
   );
 }
 
-DishesForm = reduxForm({
-  form: 'dishesForm',
-  // validateDishesForm,
-  // showDishesFormWarnings,
-  // normalizeDuration
-})(DishesForm as any);
-
-export default DishesForm;
-
-// export default reduxForm({
+// DishesForm = reduxForm({
 //   form: 'dishesForm',
 //   // validateDishesForm,
 //   // showDishesFormWarnings,
 //   // normalizeDuration
-// })(DishesForm)
+// })(DishesForm as any);
+
+// export default DishesForm;
+
+export default reduxForm<{}, DishesFormProps>({
+  form: 'DishesForm',
+  // validate: validateDishesForm,
+  // warn: showDishesFormWarnings,
+})(DishesForm);
