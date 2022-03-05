@@ -45,9 +45,6 @@ export function validateDishesForm(values: Errors) {
 
     if (!values.diameter) {
       errors.diameter = 'Required';
-    } else if (!/\d+\.\d/.test(values.diameter)) {
-      errors.diameter =
-        'Diameter must be a float number and must be rounded to one decimal place';
     }
   }
 

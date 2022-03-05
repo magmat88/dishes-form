@@ -2,7 +2,6 @@ import React from 'react';
 import { SubmissionError } from 'redux-form';
 import DishesForm from '../components/DishesForm/DishesForm';
 import axios from 'axios';
-
 import './App.scss';
 
 function handleSubmit(event: any) {
@@ -10,7 +9,21 @@ function handleSubmit(event: any) {
   const data: any = {};
   for (let element of event.target) {
     if (element.tagName === 'INPUT' || element.tagName === 'SELECT') {
-      data[element.name] = element.value;
+      if (
+        element.name === 'no_of_slices' ||
+        element.name === 'slices_of_bread' ||
+        element.name === 'spiciness_scale'
+      ) {
+        data[element.name] = parseInt(element.value);
+      } else if (element.name === 'diameter') {
+        data[element.name] = parseFloat(element.value);
+      } else if (
+        element.name === 'name' ||
+        element.name === 'preparation_time' ||
+        'type'
+      ) {
+        data[element.name] = element.value;
+      }
     }
   }
 
@@ -18,18 +31,14 @@ function handleSubmit(event: any) {
     method: 'post',
     url: 'https://frosty-wood-6558.getsandbox.com:443/dishes',
     headers: { 'Content-Type': 'application/json' },
-    data: JSON.stringify(data),
+    data: data,
   })
     .then((response) => {
-      console.log(response);
+      console.log(`${response.data}`);
     })
     .catch((error: any) => {
-      console.log(error);
+      console.log(error.data);
     });
-}
-
-function handleReset() {
-  return;
 }
 
 export function App() {
@@ -42,7 +51,7 @@ export function App() {
       <section className="app__dishesForm">
         <DishesForm
           handleSubmit={handleSubmit}
-          reset={handleReset}
+          reset={undefined}
           pristine={undefined}
           submitting={undefined}
           error={undefined}

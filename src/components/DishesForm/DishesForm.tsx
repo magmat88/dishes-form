@@ -11,8 +11,8 @@ import { showDishesFormWarnings } from '../../utils/dishesFormWarnings';
 import './DishesForm.scss';
 
 interface DishesFormProps {
-  handleSubmit: (values: any) => any;
-  reset: () => any;
+  handleSubmit: (event: any) => any;
+  reset: any;
   pristine: any;
   submitting: any;
   error: any;
@@ -201,19 +201,11 @@ function DishesForm({
         >
           Reset
         </button>
+        <p id="response"></p>
       </section>
     </form>
   );
 }
-
-// DishesForm = reduxForm({
-//   form: 'dishesForm',
-//   // validateDishesForm,
-//   // showDishesFormWarnings,
-//   // normalizeDuration
-// })(DishesForm as any);
-
-// export default DishesForm;
 
 export default reduxForm<{}, DishesFormProps>({
   form: 'DishesForm',
