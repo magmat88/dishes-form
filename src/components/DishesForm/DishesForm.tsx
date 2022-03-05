@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import {
   normalizeDuration,
   normalizeNumberOfSlices,
   normalizeDiameter,
-  normalizeRange
+  normalizeRange,
 } from '../../utils/dishesFormNormalization';
 import { validateDishesForm } from '../../utils/dishesFormValidation';
 import { showDishesFormWarnings } from '../../utils/dishesFormWarnings';
@@ -18,7 +18,7 @@ interface DishesFormProps {
   error: any;
 }
 
-function renderDishesFormInput(field: any): any {
+function renderDishesFormInput(field: any): JSX.Element {
   return (
     <div className="dishesForm__field">
       <label className="dishesForm__label dishesForm__label--standard">
@@ -45,7 +45,7 @@ function renderDishesFormInput(field: any): any {
   );
 }
 
-function renderDishesFormSelect(field: any): any {
+function renderDishesFormSelect(field: any): JSX.Element {
   return (
     <div className="dishesForm__field">
       <label className="dishesForm__label dishesForm__label--standard">
@@ -69,7 +69,7 @@ function renderDishesFormSelect(field: any): any {
   );
 }
 
-function RenderFormFieldsByDishType(dishType: string): any {
+function RenderFormFieldsByDishType(dishType: string): JSX.Element {
   const [rangeVal, setRangeVal] = useState('no selection');
 
   function handleRangeInputChange(
@@ -78,64 +78,63 @@ function RenderFormFieldsByDishType(dishType: string): any {
     setRangeVal(event.target.value);
   }
 
-  if (dishType) {
-    switch (dishType) {
-      case 'pizza':
-        return (
-          <section>
-            <Field
-              component={renderDishesFormInput}
-              name="no_of_slices"
-              placeholder="0"
-              label="# of slices"
-              type="number"
-              normalize={normalizeNumberOfSlices}
-            />
+  switch (dishType) {
+    case 'pizza':
+      return (
+        <section>
+          <Field
+            component={renderDishesFormInput}
+            name="no_of_slices"
+            placeholder="0"
+            label="# of slices"
+            type="number"
+            normalize={normalizeNumberOfSlices}
+          />
 
-            <Field
-              component={renderDishesFormInput}
-              name="diameter"
-              placeholder="0.0"
-              label="Diameter"
-              type="text"
-              normalize={normalizeDiameter}
-            />
-          </section>
-        );
-      case 'soup':
-        return (
-          <section>
-            <div>Selected spiciness: {rangeVal}</div>
+          <Field
+            component={renderDishesFormInput}
+            name="diameter"
+            placeholder="0.0"
+            label="Diameter"
+            type="text"
+            normalize={normalizeDiameter}
+          />
+        </section>
+      );
+    case 'soup':
+      return (
+        <section>
+          <div>Selected spiciness: {rangeVal}</div>
 
-            <Field
-              component={renderDishesFormInput}
-              max={10}
-              min={1}
-              name="spiciness_scale"
-              step={1}
-              label="Spiciness scale (1-10)"
-              type="range"
-              value={rangeVal}
-              onChange={handleRangeInputChange}
-              normalize={normalizeRange}
-            />
-          </section>
-        );
-      case 'sandwich':
-        return (
-          <section>
-            <Field
-              component={renderDishesFormInput}
-              name="slices_of_bread"
-              label="Number of slices of bread required"
-              placeholder="0"
-              type="number"
-              normalize={normalizeNumberOfSlices}
-            />
-          </section>
-        );
-    }
+          <Field
+            component={renderDishesFormInput}
+            max={10}
+            min={1}
+            name="spiciness_scale"
+            step={1}
+            label="Spiciness scale (1-10)"
+            type="range"
+            value={rangeVal}
+            onChange={handleRangeInputChange}
+            normalize={normalizeRange}
+          />
+        </section>
+      );
+    case 'sandwich':
+      return (
+        <section>
+          <Field
+            component={renderDishesFormInput}
+            name="slices_of_bread"
+            label="Number of slices of bread required"
+            placeholder="0"
+            type="number"
+            normalize={normalizeNumberOfSlices}
+          />
+        </section>
+      );
   }
+  return <Fragment></Fragment>;
 }
 
 function DishesForm({
@@ -144,7 +143,7 @@ function DishesForm({
   pristine,
   submitting,
   error,
-}: DishesFormProps): any {
+}: DishesFormProps): JSX.Element {
   const [dishType, setDishType] = useState<string>('');
 
   function handleDishTypeInputChange(

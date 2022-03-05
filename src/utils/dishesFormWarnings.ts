@@ -1,4 +1,4 @@
-interface Warnings {
+interface WarningsProps {
   name?: string;
   preparation_time?: string;
   type?: string;
@@ -6,11 +6,20 @@ interface Warnings {
   diameter?: string;
   spiciness_scale?: string;
   slices_of_bread?: string;
-  values?: any;
 }
 
-export function showDishesFormWarnings(values: any): any {
-  const warnings: Warnings = {};
+interface ValuesProps {
+  name?: string;
+  preparation_time?: string;
+  type?: string;
+  no_of_slices?: number;
+  diameter?: number;
+  spiciness_scale?: number;
+  slices_of_bread?: number;
+}
+
+export function showDishesFormWarnings(values: ValuesProps): WarningsProps {
+  const warnings: WarningsProps = {};
 
   if (values.name) {
     if (values.name.length > 20) {

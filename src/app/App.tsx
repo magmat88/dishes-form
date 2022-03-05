@@ -1,10 +1,11 @@
 import React from 'react';
-import { SubmissionError } from 'redux-form';
 import DishesForm from '../components/DishesForm/DishesForm';
 import axios from 'axios';
 import './App.scss';
 
 function handleSubmit(event: any) {
+  //check if there are no Validation errors
+
   event.preventDefault();
   const data: any = {};
   for (let element of event.target) {
@@ -34,10 +35,32 @@ function handleSubmit(event: any) {
     data: data,
   })
     .then((response) => {
-      console.log(`${response.data}`);
+      let details = '';
+
+      if (response.data.type === 'pizza') {
+        details = `no of slices: ${response.data.no_of_slices}
+      diameter: ${response.data.diameter}`;
+      } else if (response.data.type === 'soup') {
+        details = `spiciness scale: ${response.data.spiciness_scale}`;
+      } else if (response.data.type === 'sandwich') {
+        details = `no of slices of bread: ${response.data.slices_of_bread}`;
+      }
+
+      const message = `
+      Submitted successfully.
+
+      Selected dish:
+
+      id: ${response.data.id}
+      name: ${response.data.name}
+      preparation time: ${response.data.preparation_time}
+      dish type: ${response.data.type}
+      ${details}
+      `;
+      alert(message);
     })
     .catch((error: any) => {
-      console.log(error.data);
+      alert(error.message);
     });
 }
 
@@ -54,7 +77,7 @@ export function App() {
           reset={undefined}
           pristine={undefined}
           submitting={undefined}
-          error={undefined}
+          error={''}
         />
       </section>
     </main>

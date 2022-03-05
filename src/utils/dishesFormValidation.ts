@@ -1,4 +1,4 @@
-interface Errors {
+interface ErrorsProps {
   name?: string;
   preparation_time?: string;
   type?: string;
@@ -6,11 +6,20 @@ interface Errors {
   diameter?: string;
   spiciness_scale?: string;
   slices_of_bread?: string;
-  values?: any;
 }
 
-export function validateDishesForm(values: Errors) {
-  const errors: Errors = {};
+interface ValuesProps {
+  name?: string;
+  preparation_time?: string;
+  type?: string;
+  no_of_slices?: number;
+  diameter?: string;
+  spiciness_scale?: string;
+  slices_of_bread?: number;
+}
+
+export function validateDishesForm(values: ValuesProps): ErrorsProps {
+  const errors: ErrorsProps = {};
   if (!values.name) {
     errors.name = 'Required';
   } else if (values.name.length < 3) {
