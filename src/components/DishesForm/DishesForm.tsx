@@ -12,7 +12,7 @@ interface DishesFormProps {
   submitting: any;
 }
 
-function RenderDishesFormInput(field: any): any {
+function renderDishesFormInput(field: any): any {
   return (
     <div className="dishesForm__field">
       <label className="dishesForm__label dishesForm__label--standard">{field.label}</label>
@@ -37,7 +37,7 @@ function renderFormFieldsByDishType(dishType: string): any {
         return (
           <section>
             <Field
-              component={RenderDishesFormInput}
+              component={renderDishesFormInput}
               name="no_of_slices"
               placeholder="1"
               label="# of slices"
@@ -47,9 +47,9 @@ function renderFormFieldsByDishType(dishType: string): any {
             />
 
             <Field
-              component={RenderDishesFormInput}
+              component={renderDishesFormInput}
               name="diameter"
-              placeholder="15.00"
+              placeholder="15.0"
               label="Diameter"
               type="text"
               normalize={normalizeDiameter}
@@ -60,7 +60,7 @@ function renderFormFieldsByDishType(dishType: string): any {
         return (
           <section>
             <Field
-              component={RenderDishesFormInput}
+              component={renderDishesFormInput}
               max="10"
               min="1"
               name="spiciness_scale"
@@ -74,7 +74,7 @@ function renderFormFieldsByDishType(dishType: string): any {
         return (
           <section>
             <Field
-              component={RenderDishesFormInput}
+              component={renderDishesFormInput}
               name="slices_of_bread"
               label="Number of slices of bread required"
               placeholder="2"
@@ -106,7 +106,7 @@ function DishesForm({
     <form onSubmit={handleSubmit} className="dishesForm">
       <section className="dishesForm__fields">
       <Field
-        component={RenderDishesFormInput}
+        component={renderDishesFormInput}
         name="name"
         placeholder="Example name"
         label="Dish name"
@@ -114,7 +114,7 @@ function DishesForm({
       />
 
       <Field
-        component={RenderDishesFormInput}
+        component={renderDishesFormInput}
         name="preparation_time"
         label="Preparation time"
         type="text"
@@ -171,6 +171,6 @@ function DishesForm({
 
 export default reduxForm<{}, DishesFormProps>({
   form: 'DishesForm',
-  // validate: validateDishesForm,
-  // warn: showDishesFormWarnings,
+  validate: validateDishesForm,
+  warn: showDishesFormWarnings,
 })(DishesForm);

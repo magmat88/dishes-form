@@ -1,7 +1,6 @@
 import React from 'react';
 // import { Values } from 'redux-form-website-template';
 import DishesForm from '../components/DishesForm/DishesForm';
-import {ReactComponent as Pizza} from '../images/pizza.svg';
 import './App.scss';
 
 //use ajax
@@ -36,9 +35,9 @@ export function App() {
       <section className="app__header">
         <h1 className="app__text--large">Select Your dish</h1>
         <ul className="app__dishList--unordered">
-          <li><img src={Pizza} alt="soup" />Pizza</li>
-          <li><img src="../images/soup.svg" alt="soup" />Soup</li>
-          <li><img src="../images/sandwich.svg" alt="sandwich" />Sandwich</li>
+          <li>Pizza</li>
+          <li>Soup</li>
+          <li>Sandwich</li>
         </ul>
       </section>
       <section className="app__dishesForm">

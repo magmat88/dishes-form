@@ -26,6 +26,7 @@
         text-align: left;
         width: 100%;
         padding: 20px;
+        margin-top: 30px;
     }
 
     .app__dishList--unordered {
@@ -47,7 +48,15 @@
         .app__header,
         .app__dishesForm {
             width: 50%;
+            min-height: 100vh;
         }
+
+        .app__header {
+        }
+
+        .app__dishesForm {
+        }
+ 
 
         .app__dishList--unordered {
             font-size: 1.5rem;
@@ -76,6 +85,7 @@
         .app__header,
         .app__dishesForm {
             width: 50%;
+            min-height: 100vh;
         }
     }
 }

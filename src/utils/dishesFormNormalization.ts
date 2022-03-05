@@ -12,7 +12,7 @@ export function normalizeDiameter(value: string): string {
   }
 
   if (splitSections[1]) {
-    return splitSections[0] + '.' + splitSections[1].slice(0, 2);
+    return splitSections[0] + '.' + splitSections[1].slice(0, 1);
   } else if (floatNumber.indexOf('.') !== -1) {
     return splitSections[0] + '.';
   } else {

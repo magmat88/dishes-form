@@ -8,7 +8,8 @@ interface Errors {
   slices_of_bread?: string;
   values?: any;
 }
-export function validateDishesForm({ values }: Errors) {
+export function validateDishesForm(values: Errors) {
+
   const errors: any = {};
   if (!values.name) {
     errors.name = 'Required';
@@ -51,10 +52,8 @@ export function validateDishesForm({ values }: Errors) {
 
     if (!values.diameter) {
       errors.diameter = 'Required';
-    } else if (isNaN(Number(values.diameter))) {
-      errors.diameter = 'Diameter must be a number';
-    } else if (Number(values.diameter.toFixed(1)) !== Number(values.diameter)) {
-      errors.diameter = 'Diameter must be rounded to one decimal place';
+    } else if (!/\d+\.\d/.test(values.diameter)) {
+      errors.diameter = 'Diameter must be a float number and must be rounded to one decimal place';
     }
   }
 
