@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { reduxForm, Field, formValueSelector } from 'redux-form';
+import React, { useState } from 'react';
+import { reduxForm, Field } from 'redux-form';
 import {
   normalizeDuration,
   normalizeNumberOfSlices,
@@ -14,6 +14,7 @@ interface DishesFormProps {
   reset: () => any;
   pristine: any;
   submitting: any;
+  error: any;
 }
 
 function renderDishesFormInput(field: any): any {
@@ -61,7 +62,7 @@ function renderDishesFormSelect(field: any): any {
       </select>
       {field.meta.touched && <p className="text--danger">{field.meta.error}</p>}
       {!field.meta.error && field.meta.touched && (
-        <p className="text--danger">{field.meta.warning}</p>
+        <p className="text--alert">{field.meta.warning}</p>
       )}
     </div>
   );
@@ -69,6 +70,12 @@ function renderDishesFormSelect(field: any): any {
 
 function RenderFormFieldsByDishType(dishType: string): any {
   const [rangeVal, setRangeVal] = useState('no selection');
+
+  function handleRangeInputChange(
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void {
+    setRangeVal(event.target.value);
+  }
 
   if (dishType) {
     switch (dishType) {
@@ -78,16 +85,16 @@ function RenderFormFieldsByDishType(dishType: string): any {
             <Field
               component={renderDishesFormInput}
               name="no_of_slices"
-              placeholder="1"
+              placeholder="0"
               label="# of slices"
-              type="text"
+              type="number"
               normalize={normalizeNumberOfSlices}
             />
 
             <Field
               component={renderDishesFormInput}
               name="diameter"
-              placeholder="15.0"
+              placeholder="0.0"
               label="Diameter"
               type="text"
               normalize={normalizeDiameter}
@@ -108,9 +115,7 @@ function RenderFormFieldsByDishType(dishType: string): any {
               label="Spiciness scale (1-10)"
               type="range"
               value={rangeVal}
-              onChange={(event: any) => {
-                setRangeVal(event.target.value);
-              }}
+              onChange={handleRangeInputChange}
             />
           </section>
         );
@@ -121,8 +126,8 @@ function RenderFormFieldsByDishType(dishType: string): any {
               component={renderDishesFormInput}
               name="slices_of_bread"
               label="Number of slices of bread required"
-              placeholder="2"
-              type="text"
+              placeholder="0"
+              type="number"
               normalize={normalizeNumberOfSlices}
             />
           </section>
@@ -136,6 +141,7 @@ function DishesForm({
   reset,
   pristine,
   submitting,
+  error,
 }: DishesFormProps): any {
   const [dishType, setDishType] = useState<string>('');
 
@@ -176,8 +182,7 @@ function DishesForm({
 
         {RenderFormFieldsByDishType(dishType)}
       </section>
-
-      {/* buttons hidden if fields are invalid */}
+      {error && <p>{error}</p>}
       <section className="dishesForm__btns">
         <button
           type="submit"

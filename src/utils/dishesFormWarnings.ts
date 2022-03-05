@@ -9,7 +9,7 @@ interface Warnings {
   values?: any;
 }
 
-export function showDishesFormWarnings(values: Warnings): any {
+export function showDishesFormWarnings(values: any): any {
   const warnings: Warnings = {};
 
   if (values.name) {
@@ -26,35 +26,35 @@ export function showDishesFormWarnings(values: Warnings): any {
   }
 
   if (values.no_of_slices) {
-    if (Number(values.no_of_slices) < 2) {
+    if (values.no_of_slices < 2) {
       warnings.no_of_slices =
         'It seems to be not enough slices of bread to prepare a folded sandwich';
     }
 
-    if (Number(values.no_of_slices) > 10) {
+    if (values.no_of_slices > 10) {
       warnings.no_of_slices =
         'It seems to be too many slices of bread to prepare a single sandwich';
     }
   }
 
   if (values.diameter) {
-    if (Number(values.diameter) < 5.0) {
+    if (values.diameter < 5.0) {
       warnings.diameter = 'Diameter seems to be too small';
     }
 
-    if (Number(values.diameter) > 50.0) {
+    if (values.diameter > 50.0) {
       warnings.diameter =
         'Diameter seems to be exceeding the width of the oven';
     }
   }
 
   if (values.slices_of_bread) {
-    if (Number(values.slices_of_bread) < 2) {
+    if (values.slices_of_bread < 2) {
       warnings.slices_of_bread =
         'It seems to be not enough slices of bread to prepare a sandwich';
     }
 
-    if (Number(values.slices_of_bread) > 10) {
+    if (values.slices_of_bread > 10) {
       warnings.slices_of_bread =
         'It seems to be too many slices of bread to prepare a single sandwich';
     }

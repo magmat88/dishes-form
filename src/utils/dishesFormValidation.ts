@@ -52,7 +52,7 @@ export function validateDishesForm(values: Errors) {
   }
 
   if (values.type === 'soup') {
-    if (values.spiciness_scale) {
+    if (!values.spiciness_scale) {
       errors.spiciness_scale = 'Required';
     }
   }
@@ -62,5 +62,6 @@ export function validateDishesForm(values: Errors) {
       errors.slices_of_bread = 'Required';
     }
   }
+
   return errors;
 }

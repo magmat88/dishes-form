@@ -49,19 +49,14 @@ export function normalizeDuration(
   )}:${onlyDigits.slice(4, 6)}`;
 }
 
-export function normalizeNumberOfSlices(
-  value: string,
-  previousValue: string
-): string {
-  if (!value) {
-    return value;
+export function normalizeNumberOfSlices(value: number): number | undefined {
+  // if (!value) {
+  //   return value;
+  // }
+
+  if (value < 1) {
+    return undefined;
   }
 
-  const onlyDigits: string = value.replace(/[^\d]/g, '');
-  if (!previousValue || value.length > previousValue.length) {
-    if (onlyDigits === '0') {
-      return '';
-    }
-  }
-  return onlyDigits;
+  return value;
 }
