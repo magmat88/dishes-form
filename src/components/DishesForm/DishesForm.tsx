@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { reduxForm, Field } from 'redux-form';
-import { normalizeDuration, normalizeNumberOfSlices, normalizeDiameter } from '../../utils/dishesFormNormalization';
+import {
+  normalizeDuration,
+  normalizeNumberOfSlices,
+  normalizeDiameter,
+} from '../../utils/dishesFormNormalization';
 import { validateDishesForm } from '../../utils/dishesFormValidation';
 import { showDishesFormWarnings } from '../../utils/dishesFormWarnings';
 import './DishesForm.scss';
@@ -15,7 +19,9 @@ interface DishesFormProps {
 function renderDishesFormInput(field: any): any {
   return (
     <div className="dishesForm__field">
-      <label className="dishesForm__label dishesForm__label--standard">{field.label}</label>
+      <label className="dishesForm__label dishesForm__label--standard">
+        {field.label}
+      </label>
       <input
         {...field.input}
         type={field.type}
@@ -25,6 +31,27 @@ function renderDishesFormInput(field: any): any {
         step={field?.step}
         className="dishesForm__input dishesForm__input--standard"
       />
+      {field.meta.touched && <p className="text--danger">{field.meta.error}</p>}
+    </div>
+  );
+}
+
+function renderDishesFormSelect(field: any): any {
+  return (
+    <div className="dishesForm__field">
+      <label className="dishesForm__label dishesForm__label--standard">
+        {field.label}
+      </label>
+      <select
+        {...field.input}
+        placeholder={field?.placeholder}
+        className="dishesForm__input dishesForm__input--standard"
+      >
+        <option value="">Select dish type</option>
+        <option value="pizza">Pizza</option>
+        <option value="soup">Soup</option>
+        <option value="sandwich">Sandwich</option>
+      </select>
       {field.meta.touched && <p className="text--danger">{field.meta.error}</p>}
     </div>
   );
@@ -43,7 +70,6 @@ function renderFormFieldsByDishType(dishType: string): any {
               label="# of slices"
               type="text"
               normalize={normalizeNumberOfSlices}
-
             />
 
             <Field
@@ -105,39 +131,47 @@ function DishesForm({
   return (
     <form onSubmit={handleSubmit} className="dishesForm">
       <section className="dishesForm__fields">
-      <Field
-        component={renderDishesFormInput}
-        name="name"
-        placeholder="Example name"
-        label="Dish name"
-        type="text"
-      />
+        <Field
+          component={renderDishesFormInput}
+          name="name"
+          placeholder="Example name"
+          label="Dish name"
+          type="text"
+        />
 
-      <Field
-        component={renderDishesFormInput}
-        name="preparation_time"
-        label="Preparation time"
-        type="text"
-        pattern="[0-9]{2}:[0-9]{2}:[0-9]{2}"
-        placeholder="00:00:00"
-        normalize={normalizeDuration}
-      />
+        <Field
+          component={renderDishesFormInput}
+          name="preparation_time"
+          label="Preparation time"
+          type="text"
+          pattern="[0-9]{2}:[0-9]{2}:[0-9]{2}"
+          placeholder="00:00:00"
+          normalize={normalizeDuration}
+        />
 
-      <Field
-        className="dishesForm__field dishesForm__input dishesForm__input--standard dishesForm__input--without-label"
-        component="select"
-        name="type"
-        onChange={handleDishTypeInputChange}
-      >
-        <option value="">Select dish type</option>
-        <option value="pizza">Pizza</option>
-        <option value="soup">Soup</option>
-        <option value="sandwich">Sandwich</option>
-      </Field>
+        {/* <Field
+          className="dishesForm__field dishesForm__input dishesForm__input--standard dishesForm__input--without-label"
+          component="select"
+          name="type"
+          onChange={handleDishTypeInputChange}
+        >
+          <option value="">Select dish type</option>
+          <option value="pizza">Pizza</option>
+          <option value="soup">Soup</option>
+          <option value="sandwich">Sandwich</option>
+        </Field> */}
 
-      {renderFormFieldsByDishType(dishType)}
+        <Field
+          component={renderDishesFormSelect}
+          name="type"
+          label="Select dish type"
+          placeholder="No dish type selected"
+          onChange={handleDishTypeInputChange}
+        />
+
+        {renderFormFieldsByDishType(dishType)}
       </section>
-    
+
       {/* buttons hidden if fields are invalid */}
       <section className="dishesForm__btns">
         <button
