@@ -97,7 +97,7 @@ function RenderFormFieldsByDishType(dishType: string): any {
               name="diameter"
               placeholder="0.0"
               label="Diameter"
-              type="number"
+              type="text"
               normalize={normalizeDiameter}
             />
           </section>

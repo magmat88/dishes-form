@@ -52,7 +52,6 @@ export function validateDishesForm(values: Errors) {
   }
 
   if (values.type === 'soup') {
-    console.log(typeof values.spiciness_scale)
     if (!values.spiciness_scale) {
       errors.spiciness_scale = 'Required';
     }
