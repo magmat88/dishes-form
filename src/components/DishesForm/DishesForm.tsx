@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { reduxForm, Field } from 'redux-form';
+import { reduxForm, Field, formValueSelector } from 'redux-form';
 import {
   normalizeDuration,
   normalizeNumberOfSlices,
@@ -29,9 +29,16 @@ function renderDishesFormInput(field: any): any {
         max={field?.max}
         min={field?.min}
         step={field?.step}
-        className="dishesForm__input dishesForm__input--standard"
+        className={
+          field.type !== 'range'
+            ? `dishesForm__input dishesForm__input--standard`
+            : null
+        }
       />
       {field.meta.touched && <p className="text--danger">{field.meta.error}</p>}
+      {!field.meta.error && field.meta.touched && (
+        <p className="text--danger">{field.meta.warning}</p>
+      )}
     </div>
   );
 }
@@ -53,11 +60,16 @@ function renderDishesFormSelect(field: any): any {
         <option value="sandwich">Sandwich</option>
       </select>
       {field.meta.touched && <p className="text--danger">{field.meta.error}</p>}
+      {!field.meta.error && field.meta.touched && (
+        <p className="text--danger">{field.meta.warning}</p>
+      )}
     </div>
   );
 }
 
-function renderFormFieldsByDishType(dishType: string): any {
+function RenderFormFieldsByDishType(dishType: string): any {
+  const [rangeVal, setRangeVal] = useState('no selection');
+
   if (dishType) {
     switch (dishType) {
       case 'pizza':
@@ -85,6 +97,8 @@ function renderFormFieldsByDishType(dishType: string): any {
       case 'soup':
         return (
           <section>
+            <div>Selected spiciness: {rangeVal}</div>
+
             <Field
               component={renderDishesFormInput}
               max="10"
@@ -93,6 +107,10 @@ function renderFormFieldsByDishType(dishType: string): any {
               step="1"
               label="Spiciness scale (1-10)"
               type="range"
+              value={rangeVal}
+              onChange={(event: any) => {
+                setRangeVal(event.target.value);
+              }}
             />
           </section>
         );
@@ -120,7 +138,6 @@ function DishesForm({
   submitting,
 }: DishesFormProps): any {
   const [dishType, setDishType] = useState<string>('');
-  // useEffect({}, [dishType]);
 
   function handleDishTypeInputChange(
     event: React.ChangeEvent<HTMLInputElement>
@@ -149,18 +166,6 @@ function DishesForm({
           normalize={normalizeDuration}
         />
 
-        {/* <Field
-          className="dishesForm__field dishesForm__input dishesForm__input--standard dishesForm__input--without-label"
-          component="select"
-          name="type"
-          onChange={handleDishTypeInputChange}
-        >
-          <option value="">Select dish type</option>
-          <option value="pizza">Pizza</option>
-          <option value="soup">Soup</option>
-          <option value="sandwich">Sandwich</option>
-        </Field> */}
-
         <Field
           component={renderDishesFormSelect}
           name="type"
@@ -169,7 +174,7 @@ function DishesForm({
           onChange={handleDishTypeInputChange}
         />
 
-        {renderFormFieldsByDishType(dishType)}
+        {RenderFormFieldsByDishType(dishType)}
       </section>
 
       {/* buttons hidden if fields are invalid */}

@@ -8,8 +8,9 @@ interface Errors {
   slices_of_bread?: string;
   values?: any;
 }
+
 export function validateDishesForm(values: Errors) {
-  const errors: any = {};
+  const errors: Errors = {};
   if (!values.name) {
     errors.name = 'Required';
   } else if (values.name.length < 3) {
@@ -32,7 +33,7 @@ export function validateDishesForm(values: Errors) {
     errors.preparation_time =
       'Preparation time above 60 seconds must be converted to minutes';
   }
-  
+
   if (!values.type) {
     errors.type = 'Required';
   }
@@ -47,6 +48,12 @@ export function validateDishesForm(values: Errors) {
     } else if (!/\d+\.\d/.test(values.diameter)) {
       errors.diameter =
         'Diameter must be a float number and must be rounded to one decimal place';
+    }
+  }
+
+  if (values.type === 'soup') {
+    if (values.spiciness_scale) {
+      errors.spiciness_scale = 'Required';
     }
   }
 
