@@ -4,6 +4,7 @@ import {
   normalizeDuration,
   normalizeNumberOfSlices,
   normalizeDiameter,
+  normalizeRange
 } from '../../utils/dishesFormNormalization';
 import { validateDishesForm } from '../../utils/dishesFormValidation';
 import { showDishesFormWarnings } from '../../utils/dishesFormWarnings';
@@ -96,7 +97,7 @@ function RenderFormFieldsByDishType(dishType: string): any {
               name="diameter"
               placeholder="0.0"
               label="Diameter"
-              type="text"
+              type="number"
               normalize={normalizeDiameter}
             />
           </section>
@@ -108,14 +109,15 @@ function RenderFormFieldsByDishType(dishType: string): any {
 
             <Field
               component={renderDishesFormInput}
-              max="10"
-              min="1"
+              max={10}
+              min={1}
               name="spiciness_scale"
-              step="1"
+              step={1}
               label="Spiciness scale (1-10)"
               type="range"
               value={rangeVal}
               onChange={handleRangeInputChange}
+              normalize={normalizeRange}
             />
           </section>
         );

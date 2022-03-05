@@ -20,6 +20,13 @@ export function normalizeDiameter(value: string): string {
   }
 }
 
+export function normalizeRange(value: string): number | string | undefined {
+  if (!value) {
+    return value;
+  }
+  return Number(value);
+}
+
 export function normalizeDuration(
   value: string,
   previousValue: string
