@@ -5,9 +5,9 @@ import {
   normalizeNumberOfSlices,
   normalizeDiameter,
   normalizeRange,
-} from '../../utils/dishesFormNormalization';
-import { validateDishesForm } from '../../utils/dishesFormValidation';
-import { showDishesFormWarnings } from '../../utils/dishesFormWarnings';
+  showDishesFormWarnings,
+  validateDishesForm,
+} from '../../utils/utils';
 import './DishesForm.scss';
 
 interface DishesFormProps {
@@ -33,7 +33,7 @@ function renderDishesFormInput(field: any): JSX.Element {
             ? 'dishesForm__label--valid'
             : field.type === 'range' && field.meta.touched
             ? 'dishesForm__label--valid'
-            : null
+            : ''
         }`}
       >
         {field.label}
@@ -59,7 +59,7 @@ function renderDishesFormInput(field: any): JSX.Element {
             ? 'dishesForm__input dishesForm__input--standard'
             : field.type === 'range'
             ? 'rangeInput'
-            : null
+            : ''
         }
       />
       <article className="dishesForm__error">
@@ -85,7 +85,7 @@ function renderDishesFormSelect(field: any): JSX.Element {
             ? 'dishesForm__label--alert'
             : field.meta.touched && !field.meta.error
             ? 'dishesForm__label--valid'
-            : null
+            : ''
         }`}
       >
         {field.label}
