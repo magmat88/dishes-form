@@ -1,16 +1,17 @@
 import React from 'react';
-import DishesForm from '../components/DishesForm/DishesForm';
-import { TAGNAME_INPUT, TAGNAME_SELECT, URL } from '../config/constants';
 import axios from 'axios';
+import { TAGNAME_INPUT, TAGNAME_SELECT, URL } from '../config/constants';
+import DishesForm from '../components/DishesForm/DishesForm';
 import './App.scss';
 
 function handleSubmit(event: any) {
-  //check if there are no Validation errors
-
   event.preventDefault();
   const data: any = {};
   for (let element of event.target) {
-    if (element.tagName === TAGNAME_INPUT || element.tagName === TAGNAME_SELECT) {
+    if (
+      element.tagName === TAGNAME_INPUT ||
+      element.tagName === TAGNAME_SELECT
+    ) {
       if (
         element.name === 'no_of_slices' ||
         element.name === 'slices_of_bread' ||
@@ -65,21 +66,31 @@ function handleSubmit(event: any) {
     });
 }
 
+//source of image: https://pixabay.com/pl/photos/pizza-wz%c3%b3r-tekstura-t%c5%82o-pomidor-5143513/
+function ImgHeader() {
+  return (
+    <figure className="app__img--large">
+      <img
+        src={require('../images/headerImg.jpg')}
+        alt="pizza"
+        className="img--fitted"
+      />
+    </figure>
+  );
+}
+
 export function App() {
   return (
-    <main className="app">
-      <section className="app__header">
-        <h1 className="app__text--large">Select Your dish</h1>
-        {'here will be a photo'}
-      </section>
-      <section className="app__dishesForm">
+    <section className="app">
+      <ImgHeader />
+      <article className="app__dishesForm">
         <DishesForm
           handleSubmit={handleSubmit}
           reset={undefined}
           pristine={undefined}
           submitting={undefined}
         />
-      </section>
-    </main>
+      </article>
+    </section>
   );
 }

@@ -1,6 +1,40 @@
 %imgFitted {
     height: 100%;
+    margin: 0;
     max-height: 100%;
+    max-width: 100vw;
     object-fit: cover;
+    padding: 0;
+
+    @include forMediumScreens($breakpoint-small, $breakpoint-medium) {
+        max-width: 100%;
+    }
+    @include forLargeScreens($breakpoint-medium) {
+        height: 200px;
+        width: 100%;
+    }
+}
+
+%imgLarge {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 25vh;
+    justify-content: center;
+    margin: 0;
+    max-width: 100vw;
+    padding: 0;
     width: 100%;
+
+    @include forMediumScreens($breakpoint-small, $breakpoint-medium) {
+        max-width: 100%;
+        background-color: $color_background;
+        height: 20vh;
+    }
+
+    @include forLargeScreens($breakpoint-medium) {
+        max-width: 30vw;
+        background-color: $color_background;
+        height: 100vh;
+    }
 }

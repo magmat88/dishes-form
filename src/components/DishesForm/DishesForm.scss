@@ -3,48 +3,72 @@
 @import "../../styles/variables/variables.scss";
 
 .dishesForm {
+    align-items: center;
     display: flex;
     flex-direction: column;
-    align-items: left;
-    justify-content: flex-start;
-    width: 80%;
-    // border: 1px solid  green;
-    height: 850px;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+
+    .dishesForm__btns {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
 
     .dishesForm__fields {
-        height: 800px;
+        background-color: $color_light;
+        display: flex;
+        flex-direction: column;
+        // height: 100vh;
+        height: 50px;
+        padding: 20px;
+        width: 90%;
     }
 
     .dishesForm__field {
         display: flex;
         flex-direction: column;
-        justify-content: flex-start;
-        width: 100%;
-        margin: 0 0 20px 0;
+        height: 600px;
     }
 
     .dishesForm__label {
-        font-size: 0.8rem;
+        @extend %textLabel;
         padding: 5px 0;
     }
 
-    .dishesForm__label--standard {
-        color: $color_grey;
+    .dishesForm__error {
+        height: 40px;
     }
 
-    .dishesForm__label--focused {
-        color: $color_contrast;
+    .dishesForm__label--warning,
+    .text--warning {
+        @extend %textWarning;
     }
 
-    .dishesForm__label--alert {
+    .dishesForm__label--valid {
+        @extend %textValid;
+    }
+
+    .dishesForm__label--alert,
+    .text--alert {
+        @extend %textAlert;
+    }
+
+    .dishesForm__input--warning {
+        border-color: $color_warn;
+        color: $color_warn;
+    }
+
+    .dishesForm__input--valid {
+        border-color: $color_valid;
+        color: $color_valid;
+    }
+
+    .dishesForm__input--alert {
+        border-color: $color_alert;
         color: $color_alert;
-    }
-
-    .dishesForm__input {
-        font-size: 1.2rem;
-        padding: 10px;
-        border-radius: 5px;
-        border: 2px solid;
     }
 
     .dishesForm__input--standard {
@@ -52,24 +76,24 @@
         color: $color_grey;
     }
 
-    .dishesForm__input--focused {
-        border-color: $color_contrast;
-        color: $color_contrast;
-    }
-
-    .dishesForm__input--without-label {
-        margin: 45px 0;
-    }
-
-    .dishesForm__input--alert {
-        border-color: $color_alert;
-        color: $color_alert;
-
-    }
-
-    .dishesForm__btns {
+    .dishesForm__input {
         display: flex;
-        flex-direction: row;
+        justify-content: flex-start;
+        @extend %textStandard;
+        padding: 10px;
+        border-radius: 5px;
+        border: 2px solid;
+        // color: $color_grey;
+
+        input[type="text"] {
+            background: transparent;
+            border: none;
+            width: 82vw;
+        }
+    }
+
+    .dishesForm__input--valid {
+        border-color: $color_light-grey;
     }
 
     .btn {
@@ -77,14 +101,32 @@
     }
 
     .btn--light {
-        // @extend %btnLight;
+        @extend %btnLight;
     }
 
     .btn--contrast {
-        // @extend %btnContrast;
+        @extend %btnContrast;
     }
 
-    .btn--hidden {
-        // display: none;
+    .text--description {
+        @extend %textDescription;
+    }
+
+    @include forMediumScreens($breakpoint-small, $breakpoint-medium) {
+        align-items: center;
+
+        .dishesForm__btns {
+            flex-direction: row;
+        }
+
+        .dishesForm__fields {
+            max-width: 60%;
+        }
+    }
+
+    @include forLargeScreens($breakpoint-medium) {
+        .dishesForm__fields {
+            width: 50%;
+        }
     }
 }

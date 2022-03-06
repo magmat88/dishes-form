@@ -1,28 +1,29 @@
-//TODO: fonts in rem
-
-%textHeader {
-    font-size: 40px;
-    font-weight: 600;
-    text-align: center;
-}
-
 %textDescription {
-    font-size: 22px;
-    line-height: 37px;
+    font-family: $font_default;
+    font-size: 0.7rem;;
 }
 
 %textStandard {
-    font-size: 24px;
-    line-height: 37px;
+    font-family: $font_default;
+    font-size: 1.2rem;
     text-align: center;
 }
 
 %textLabel {
-    text-transform: uppercase;
+    font-family: $font_default;
     font-weight: 700;
+    text-transform: uppercase;
     width: 100%;
 }
 
 %textWarning {
-    color: $color_contrast
+    color: $color_warn;
+}
+
+%textAlert {
+    color: $color_alert;
+}
+
+%textValid {
+    color: $color_valid;
 }

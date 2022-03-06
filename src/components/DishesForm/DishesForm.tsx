@@ -20,7 +20,22 @@ interface DishesFormProps {
 function renderDishesFormInput(field: any): JSX.Element {
   return (
     <div className="dishesForm__field">
-      <label className="dishesForm__label dishesForm__label--standard">
+      <label
+        className={`dishesForm__label ${
+          field.type !== 'range' && field.meta.touched && field.meta.error
+            ? 'dishesForm__label--alert'
+            : field.type !== 'range' && field.meta.touched && field.meta.warning
+            ? 'dishesForm__label--warning'
+            : field.type !== 'range' &&
+              field.meta.touched &&
+              !field.meta.error &&
+              !field.meta.warning
+            ? 'dishesForm__label--valid'
+            : field.type === 'range' && field.meta.touched
+            ? 'dishesForm__label--valid'
+            : null
+        }`}
+      >
         {field.label}
       </label>
       <input
@@ -31,15 +46,30 @@ function renderDishesFormInput(field: any): JSX.Element {
         min={field?.min}
         step={field?.step}
         className={
-          field.type !== 'range'
-            ? `dishesForm__input dishesForm__input--standard`
+          field.type !== 'range' && field.meta.touched && field.meta.error
+            ? 'dishesForm__input dishesForm__input--standard dishesForm__input--alert'
+            : field.type !== 'range' && field.meta.touched && field.meta.warning
+            ? 'dishesForm__input dishesForm__input--standard dishesForm__input--warning'
+            : field.type !== 'range' &&
+              field.meta.touched &&
+              !field.meta.error &&
+              !field.meta.warning
+            ? 'dishesForm__input dishesForm__input--standard dishesForm__input--valid'
+            : field.type !== 'range'
+            ? 'dishesForm__input dishesForm__input--standard'
             : null
         }
       />
-      {field.meta.touched && <p className="text--danger">{field.meta.error}</p>}
-      {!field.meta.error && field.meta.touched && (
-        <p className="text--danger">{field.meta.warning}</p>
-      )}
+      <article className="dishesForm__error">
+        {field.meta.touched && (
+          <p className="text--description text--alert">{field.meta.error}</p>
+        )}
+        {!field.meta.error && field.meta.touched && (
+          <p className="text--description text--warning">
+            {field.meta.warning}
+          </p>
+        )}
+      </article>
     </div>
   );
 }
@@ -47,23 +77,38 @@ function renderDishesFormInput(field: any): JSX.Element {
 function renderDishesFormSelect(field: any): JSX.Element {
   return (
     <div className="dishesForm__field">
-      <label className="dishesForm__label dishesForm__label--standard">
+      <label
+        className={`dishesForm__label ${
+          field.meta.touched && field.meta.error
+            ? 'dishesForm__label--alert'
+            : field.meta.touched && !field.meta.error
+            ? 'dishesForm__label--valid'
+            : null
+        }`}
+      >
         {field.label}
       </label>
       <select
         {...field.input}
         placeholder={field?.placeholder}
-        className="dishesForm__input dishesForm__input--standard"
+        className={`dishesForm__input ${
+          field.meta.touched && field.meta.error
+            ? 'dishesForm__input--alert'
+            : field.meta.touched && !field.meta.error
+            ? 'dishesForm__input--valid'
+            : 'dishesForm__input--standard'
+        }`}
       >
         <option value="">Select dish type</option>
         <option value="pizza">Pizza</option>
         <option value="soup">Soup</option>
         <option value="sandwich">Sandwich</option>
       </select>
-      {field.meta.touched && <p className="text--danger">{field.meta.error}</p>}
-      {!field.meta.error && field.meta.touched && (
-        <p className="text--alert">{field.meta.warning}</p>
-      )}
+      <article className="dishesForm__error">
+        {field.meta.touched && (
+          <p className="text--description text--alert">{field.meta.error}</p>
+        )}
+      </article>
     </div>
   );
 }
@@ -194,6 +239,23 @@ function DishesForm({
 
   return (
     <form onSubmit={handleSubmit} className="dishesForm">
+      <section className="dishesForm__btns">
+        <button
+          type="submit"
+          disabled={submitting}
+          className="btn btn--contrast"
+        >
+          Submit
+        </button>
+        <button
+          type="button"
+          onClick={reset}
+          disabled={pristine || submitting}
+          className="btn btn--light"
+        >
+          Reset
+        </button>
+      </section>
       <section className="dishesForm__fields">
         <DishNameField />
         <DishPreparationTimeField />
@@ -206,24 +268,6 @@ function DishesForm({
         />
 
         {FormDetailsByDishType(dishType)}
-      </section>
-      <section className="dishesForm__btns">
-        <button
-          type="submit"
-          disabled={submitting}
-          className="btn btn--contrast btn--hidden"
-        >
-          Submit
-        </button>
-        <button
-          type="button"
-          onClick={reset}
-          disabled={pristine || submitting}
-          className="btn btn--light btn--hidden"
-        >
-          Reset
-        </button>
-        <p id="response"></p>
       </section>
     </form>
   );

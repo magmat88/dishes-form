@@ -1,16 +1,15 @@
 @import "../variables/variables.scss";
 
 %btn {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    @extend %textLabel;
     border-radius: 50px;
     border: none;
     cursor: pointer;
-    font-size: 22px;
+    display: flex;
+    justify-content: center;
     margin: 15px 35px;
     padding: 15px 30px;
+    width: 90px;
 
     &:active {
         border: 5px solid $color_active;
@@ -21,11 +20,21 @@
 %btnLight {
     background-color: $color_light;
     color: $color_contrast;
+
+    &:hover {
+        background-color: $color_alert;
+        color: $color_light;
+    }
+
+    a {
+        color: $color_contrast;
+        text-decoration: none;
+    }
 }
 
 %btnContrast {
-    color: $color_light;
     background-color: $color_contrast;
+    color: $color_light;
 
     &:hover {
         background-color: $color_contrast;
