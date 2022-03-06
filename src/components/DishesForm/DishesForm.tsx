@@ -15,7 +15,6 @@ interface DishesFormProps {
   reset: any;
   pristine: any;
   submitting: any;
-  error: any;
 }
 
 function renderDishesFormInput(field: any): JSX.Element {
@@ -69,7 +68,46 @@ function renderDishesFormSelect(field: any): JSX.Element {
   );
 }
 
-function RenderFormFieldsByDishType(dishType: string): JSX.Element {
+function DishNoOfSlicesField(): JSX.Element {
+  return (
+    <Field
+      component={renderDishesFormInput}
+      name="no_of_slices"
+      placeholder="0"
+      label="# of slices"
+      type="number"
+      normalize={normalizeNumberOfSlices}
+    />
+  );
+}
+
+function DishDiameterField(): JSX.Element {
+  return (
+    <Field
+      component={renderDishesFormInput}
+      name="diameter"
+      placeholder="0.0"
+      label="Diameter"
+      type="text"
+      normalize={normalizeDiameter}
+    />
+  );
+}
+
+function DishSlicesOfBreadField(): JSX.Element {
+  return (
+    <Field
+      component={renderDishesFormInput}
+      name="slices_of_bread"
+      label="Number of slices of bread required"
+      placeholder="0"
+      type="number"
+      normalize={normalizeNumberOfSlices}
+    />
+  );
+}
+
+function FormDetailsByDishType(dishType: string): JSX.Element {
   const [rangeVal, setRangeVal] = useState('no selection');
 
   function handleRangeInputChange(
@@ -82,30 +120,13 @@ function RenderFormFieldsByDishType(dishType: string): JSX.Element {
     case 'pizza':
       return (
         <section>
-          <Field
-            component={renderDishesFormInput}
-            name="no_of_slices"
-            placeholder="0"
-            label="# of slices"
-            type="number"
-            normalize={normalizeNumberOfSlices}
-          />
-
-          <Field
-            component={renderDishesFormInput}
-            name="diameter"
-            placeholder="0.0"
-            label="Diameter"
-            type="text"
-            normalize={normalizeDiameter}
-          />
+          <DishNoOfSlicesField />
+          <DishDiameterField />
         </section>
       );
     case 'soup':
       return (
         <section>
-          <div>Selected spiciness: {rangeVal}</div>
-
           <Field
             component={renderDishesFormInput}
             max={10}
@@ -118,23 +139,43 @@ function RenderFormFieldsByDishType(dishType: string): JSX.Element {
             onChange={handleRangeInputChange}
             normalize={normalizeRange}
           />
+          <div>Selected spiciness: {rangeVal}</div>
         </section>
       );
     case 'sandwich':
       return (
         <section>
-          <Field
-            component={renderDishesFormInput}
-            name="slices_of_bread"
-            label="Number of slices of bread required"
-            placeholder="0"
-            type="number"
-            normalize={normalizeNumberOfSlices}
-          />
+          <DishSlicesOfBreadField />
         </section>
       );
   }
   return <Fragment></Fragment>;
+}
+
+function DishNameField(): JSX.Element {
+  return (
+    <Field
+      component={renderDishesFormInput}
+      name="name"
+      placeholder="Example name"
+      label="Dish name"
+      type="text"
+    />
+  );
+}
+
+function DishPreparationTimeField(): JSX.Element {
+  return (
+    <Field
+      component={renderDishesFormInput}
+      name="preparation_time"
+      label="Preparation time"
+      type="text"
+      pattern="[0-9]{2}:[0-9]{2}:[0-9]{2}"
+      placeholder="00:00:00"
+      normalize={normalizeDuration}
+    />
+  );
 }
 
 function DishesForm({
@@ -142,7 +183,6 @@ function DishesForm({
   reset,
   pristine,
   submitting,
-  error,
 }: DishesFormProps): JSX.Element {
   const [dishType, setDishType] = useState<string>('');
 
@@ -155,24 +195,8 @@ function DishesForm({
   return (
     <form onSubmit={handleSubmit} className="dishesForm">
       <section className="dishesForm__fields">
-        <Field
-          component={renderDishesFormInput}
-          name="name"
-          placeholder="Example name"
-          label="Dish name"
-          type="text"
-        />
-
-        <Field
-          component={renderDishesFormInput}
-          name="preparation_time"
-          label="Preparation time"
-          type="text"
-          pattern="[0-9]{2}:[0-9]{2}:[0-9]{2}"
-          placeholder="00:00:00"
-          normalize={normalizeDuration}
-        />
-
+        <DishNameField />
+        <DishPreparationTimeField />
         <Field
           component={renderDishesFormSelect}
           name="type"
@@ -181,9 +205,8 @@ function DishesForm({
           onChange={handleDishTypeInputChange}
         />
 
-        {RenderFormFieldsByDishType(dishType)}
+        {FormDetailsByDishType(dishType)}
       </section>
-      {error && <p>{error}</p>}
       <section className="dishesForm__btns">
         <button
           type="submit"

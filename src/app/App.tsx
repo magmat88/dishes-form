@@ -1,5 +1,6 @@
 import React from 'react';
 import DishesForm from '../components/DishesForm/DishesForm';
+import { TAGNAME_INPUT, TAGNAME_SELECT, URL } from '../config/constants';
 import axios from 'axios';
 import './App.scss';
 
@@ -9,7 +10,7 @@ function handleSubmit(event: any) {
   event.preventDefault();
   const data: any = {};
   for (let element of event.target) {
-    if (element.tagName === 'INPUT' || element.tagName === 'SELECT') {
+    if (element.tagName === TAGNAME_INPUT || element.tagName === TAGNAME_SELECT) {
       if (
         element.name === 'no_of_slices' ||
         element.name === 'slices_of_bread' ||
@@ -30,7 +31,7 @@ function handleSubmit(event: any) {
 
   axios({
     method: 'post',
-    url: 'https://frosty-wood-6558.getsandbox.com:443/dishes',
+    url: URL,
     headers: { 'Content-Type': 'application/json' },
     data: data,
   })
@@ -59,7 +60,7 @@ function handleSubmit(event: any) {
       `;
       alert(message);
     })
-    .catch((error: any) => {
+    .catch((error) => {
       alert(error.message);
     });
 }
@@ -77,7 +78,6 @@ export function App() {
           reset={undefined}
           pristine={undefined}
           submitting={undefined}
-          error={''}
         />
       </section>
     </main>
