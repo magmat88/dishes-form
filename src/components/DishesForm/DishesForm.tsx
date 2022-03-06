@@ -57,6 +57,8 @@ function renderDishesFormInput(field: any): JSX.Element {
             ? 'dishesForm__input dishesForm__input--standard dishesForm__input--valid'
             : field.type !== 'range'
             ? 'dishesForm__input dishesForm__input--standard'
+            : field.type === 'range'
+            ? 'rangeInput'
             : null
         }
       />
@@ -153,7 +155,7 @@ function DishSlicesOfBreadField(): JSX.Element {
 }
 
 function FormDetailsByDishType(dishType: string): JSX.Element {
-  const [rangeVal, setRangeVal] = useState('no selection');
+  const [rangeVal, setRangeVal] = useState('');
 
   function handleRangeInputChange(
     event: React.ChangeEvent<HTMLInputElement>
@@ -171,7 +173,7 @@ function FormDetailsByDishType(dishType: string): JSX.Element {
       );
     case 'soup':
       return (
-        <section>
+        <section className="dishesForm__rangeField">
           <Field
             component={renderDishesFormInput}
             max={10}
@@ -184,7 +186,9 @@ function FormDetailsByDishType(dishType: string): JSX.Element {
             onChange={handleRangeInputChange}
             normalize={normalizeRange}
           />
-          <div>Selected spiciness: {rangeVal}</div>
+          <article className="selectedSpiciness">
+            <p>{rangeVal}</p>
+          </article>
         </section>
       );
     case 'sandwich':

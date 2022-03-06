@@ -30,16 +30,36 @@
     .dishesForm__field {
         display: flex;
         flex-direction: column;
-        height: 600px;
+    }
+
+    .dishesForm__rangeField {
+        align-items: flex-start;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
     }
 
     .dishesForm__label {
         @extend %textLabel;
         padding: 5px 0;
+        width: 100%;
     }
 
     .dishesForm__error {
         height: 40px;
+    }
+
+    .rangeInput {
+        width: 100%;
+    }
+
+    .selectedSpiciness {
+        @extend %textLabel;
+        display: flex;
+        justify-content: center;
+        width: 20px;
+        height: 65px;
+        padding: 10px;
     }
 
     .dishesForm__label--warning,
