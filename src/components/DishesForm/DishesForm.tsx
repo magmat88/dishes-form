@@ -1,5 +1,5 @@
-import React, { useState, Fragment } from 'react';
-import { reduxForm, Field } from 'redux-form';
+import React, { useState, Fragment } from "react";
+import { reduxForm, Field } from "redux-form";
 import {
   normalizeDuration,
   normalizeNumberOfSlices,
@@ -7,8 +7,24 @@ import {
   normalizeRange,
   showDishesFormWarnings,
   validateDishesForm,
-} from '../../utils/utils';
-import './DishesForm.scss';
+} from "../../utils/utils";
+import {
+  BUTTON_TYPE_BUTTON,
+  BUTTON_TYPE_SUBMIT,
+  DISH_TYPE_PIZZA,
+  DISH_TYPE_SANDWICH,
+  DISH_TYPE_SOUP,
+  FIELD_NAME_DIAMETER,
+  FIELD_NAME_NAME,
+  FIELD_NAME_NO_OF_SLICES,
+  FIELD_NAME_PREPARATION_TIME,
+  FIELD_NAME_SLICES_OF_BREAD,
+  FIELD_NAME_SPICINESS_SCALE,
+  FIELD_TYPE_NUMBER,
+  FIELD_TYPE_RANGE,
+  FIELD_TYPE_TEXT
+} from "../../config/constants";
+import "./DishesForm.scss";
 
 interface DishesFormProps {
   handleSubmit: (event: any) => any;
@@ -18,26 +34,34 @@ interface DishesFormProps {
 }
 
 function renderDishesFormInput(field: any): JSX.Element {
+  const labelStyle = `dishesForm__label ${
+    field.type !== FIELD_TYPE_RANGE && field.meta.touched && field.meta.error
+      ? "dishesForm__label--alert"
+      : field.type !== FIELD_TYPE_RANGE &&
+        field.meta.touched &&
+        field.meta.warning
+      ? "dishesForm__label--warning"
+      : field.type !== FIELD_TYPE_RANGE &&
+        field.meta.touched &&
+        !field.meta.error &&
+        !field.meta.warning
+      ? "dishesForm__label--valid"
+      : field.type === FIELD_TYPE_RANGE && field.meta.touched
+      ? "dishesForm__label--valid"
+      : ""
+  }`;
+
+  const inputStyle = `${
+    field.type !== FIELD_TYPE_RANGE
+      ? "dishesForm__input dishesForm__input--standard"
+      : field.type === FIELD_TYPE_RANGE
+      ? "rangeInput"
+      : ""
+  }`;
+
   return (
     <div className="dishesForm__field">
-      <label
-        className={`dishesForm__label ${
-          field.type !== 'range' && field.meta.touched && field.meta.error
-            ? 'dishesForm__label--alert'
-            : field.type !== 'range' && field.meta.touched && field.meta.warning
-            ? 'dishesForm__label--warning'
-            : field.type !== 'range' &&
-              field.meta.touched &&
-              !field.meta.error &&
-              !field.meta.warning
-            ? 'dishesForm__label--valid'
-            : field.type === 'range' && field.meta.touched
-            ? 'dishesForm__label--valid'
-            : ''
-        }`}
-      >
-        {field.label}
-      </label>
+      <label className={labelStyle}>{field.label}</label>
       <input
         {...field.input}
         type={field.type}
@@ -45,22 +69,7 @@ function renderDishesFormInput(field: any): JSX.Element {
         max={field?.max}
         min={field?.min}
         step={field?.step}
-        className={
-          field.type !== 'range' && field.meta.touched && field.meta.error
-            ? 'dishesForm__input dishesForm__input--standard dishesForm__input--alert'
-            : field.type !== 'range' && field.meta.touched && field.meta.warning
-            ? 'dishesForm__input dishesForm__input--standard dishesForm__input--warning'
-            : field.type !== 'range' &&
-              field.meta.touched &&
-              !field.meta.error &&
-              !field.meta.warning
-            ? 'dishesForm__input dishesForm__input--standard dishesForm__input--valid'
-            : field.type !== 'range'
-            ? 'dishesForm__input dishesForm__input--standard'
-            : field.type === 'range'
-            ? 'rangeInput'
-            : ''
-        }
+        className={inputStyle}
       />
       <article className="dishesForm__error">
         {field.meta.touched && (
@@ -77,34 +86,30 @@ function renderDishesFormInput(field: any): JSX.Element {
 }
 
 function renderDishesFormSelect(field: any): JSX.Element {
+  const selectLabelStyle = `dishesForm__label ${
+    field.meta.touched && field.meta.error
+      ? "dishesForm__label--alert"
+      : field.meta.touched && !field.meta.error
+      ? "dishesForm__label--valid"
+      : ""
+  }`;
+
   return (
     <div className="dishesForm__field">
       <label
-        className={`dishesForm__label ${
-          field.meta.touched && field.meta.error
-            ? 'dishesForm__label--alert'
-            : field.meta.touched && !field.meta.error
-            ? 'dishesForm__label--valid'
-            : ''
-        }`}
+        className={selectLabelStyle}
       >
         {field.label}
       </label>
       <select
         {...field.input}
         placeholder={field?.placeholder}
-        className={`dishesForm__input ${
-          field.meta.touched && field.meta.error
-            ? 'dishesForm__input--alert'
-            : field.meta.touched && !field.meta.error
-            ? 'dishesForm__input--valid'
-            : 'dishesForm__input--standard'
-        }`}
+        className="dishesForm__input dishesForm__input--standard"
       >
-        <option value="">Select dish type</option>
-        <option value="pizza">Pizza</option>
-        <option value="soup">Soup</option>
-        <option value="sandwich">Sandwich</option>
+        <option value="">select dish type</option>
+        <option value={DISH_TYPE_PIZZA}>{DISH_TYPE_PIZZA}</option>
+        <option value={DISH_TYPE_SOUP}>{DISH_TYPE_SOUP}</option>
+        <option value={DISH_TYPE_SANDWICH}>{DISH_TYPE_SANDWICH}</option>
       </select>
       <article className="dishesForm__error">
         {field.meta.touched && (
@@ -119,10 +124,10 @@ function DishNoOfSlicesField(): JSX.Element {
   return (
     <Field
       component={renderDishesFormInput}
-      name="no_of_slices"
+      name={FIELD_NAME_NO_OF_SLICES}
       placeholder="0"
       label="# of slices"
-      type="number"
+      type={FIELD_TYPE_NUMBER}
       normalize={normalizeNumberOfSlices}
     />
   );
@@ -132,10 +137,10 @@ function DishDiameterField(): JSX.Element {
   return (
     <Field
       component={renderDishesFormInput}
-      name="diameter"
+      name={FIELD_NAME_DIAMETER}
       placeholder="0.0"
       label="Diameter"
-      type="text"
+      type={FIELD_TYPE_TEXT}
       normalize={normalizeDiameter}
     />
   );
@@ -145,17 +150,17 @@ function DishSlicesOfBreadField(): JSX.Element {
   return (
     <Field
       component={renderDishesFormInput}
-      name="slices_of_bread"
+      name={FIELD_NAME_SLICES_OF_BREAD}
       label="Number of slices of bread required"
       placeholder="0"
-      type="number"
+      type={FIELD_TYPE_NUMBER}
       normalize={normalizeNumberOfSlices}
     />
   );
 }
 
 function FormDetailsByDishType(dishType: string): JSX.Element {
-  const [rangeVal, setRangeVal] = useState('');
+  const [rangeVal, setRangeVal] = useState("");
 
   function handleRangeInputChange(
     event: React.ChangeEvent<HTMLInputElement>
@@ -164,24 +169,24 @@ function FormDetailsByDishType(dishType: string): JSX.Element {
   }
 
   switch (dishType) {
-    case 'pizza':
+    case DISH_TYPE_PIZZA:
       return (
         <section>
           <DishNoOfSlicesField />
           <DishDiameterField />
         </section>
       );
-    case 'soup':
+    case DISH_TYPE_SOUP:
       return (
         <section className="dishesForm__rangeField">
           <Field
             component={renderDishesFormInput}
             max={10}
             min={1}
-            name="spiciness_scale"
+            name={FIELD_NAME_SPICINESS_SCALE}
             step={1}
             label="Spiciness scale (1-10)"
-            type="range"
+            type={FIELD_TYPE_RANGE}
             value={rangeVal}
             onChange={handleRangeInputChange}
             normalize={normalizeRange}
@@ -191,7 +196,7 @@ function FormDetailsByDishType(dishType: string): JSX.Element {
           </article>
         </section>
       );
-    case 'sandwich':
+    case DISH_TYPE_SANDWICH:
       return (
         <section>
           <DishSlicesOfBreadField />
@@ -205,10 +210,10 @@ function DishNameField(): JSX.Element {
   return (
     <Field
       component={renderDishesFormInput}
-      name="name"
-      placeholder="Example name"
+      name={FIELD_NAME_NAME}
+      placeholder="example name"
       label="Dish name"
-      type="text"
+      type={FIELD_TYPE_TEXT}
     />
   );
 }
@@ -217,9 +222,9 @@ function DishPreparationTimeField(): JSX.Element {
   return (
     <Field
       component={renderDishesFormInput}
-      name="preparation_time"
+      name={FIELD_NAME_PREPARATION_TIME}
       label="Preparation time"
-      type="text"
+      type={FIELD_TYPE_TEXT}
       pattern="[0-9]{2}:[0-9]{2}:[0-9]{2}"
       placeholder="00:00:00"
       normalize={normalizeDuration}
@@ -233,7 +238,7 @@ function DishesForm({
   pristine,
   submitting,
 }: DishesFormProps): JSX.Element {
-  const [dishType, setDishType] = useState<string>('');
+  const [dishType, setDishType] = useState<string>("");
 
   function handleDishTypeInputChange(
     event: React.ChangeEvent<HTMLInputElement>
@@ -245,14 +250,14 @@ function DishesForm({
     <form onSubmit={handleSubmit} className="dishesForm">
       <section className="dishesForm__btns">
         <button
-          type="submit"
+          type={BUTTON_TYPE_SUBMIT}
           disabled={submitting}
           className="btn btn--contrast"
         >
           Submit
         </button>
         <button
-          type="button"
+          type={BUTTON_TYPE_BUTTON}
           onClick={reset}
           disabled={pristine || submitting}
           className="btn btn--light"
@@ -278,7 +283,7 @@ function DishesForm({
 }
 
 export default reduxForm<{}, DishesFormProps>({
-  form: 'DishesForm',
+  form: "DishesForm",
   validate: validateDishesForm,
   warn: showDishesFormWarnings,
 })(DishesForm);

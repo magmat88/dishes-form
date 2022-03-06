@@ -9,9 +9,12 @@ import { normalizeDiameter } from './normalizeDiameter';
 import { normalizeDuration } from './normalizeDuration';
 import { normalizeNumberOfSlices } from './normalizeNumberOfSlices';
 import { normalizeRange } from './normalizeRange';
-import { showMessageOnSuccess } from './showMessageOnSuccess';
-import { validateDishesForm } from './dishesFormValidation';
 import { showDishesFormWarnings } from './dishesFormWarnings';
+import { showMessageOnSuccess } from './showMessageOnSuccess';
+import { validateDishesForm } from './validateDishesForm';
+import { validateDurationMinutes } from './validateDurationMinutes';
+import { validateDurationSeconds } from './validateDurationSeconds';
+
 
 export {
   addParsedFloatValue,
@@ -25,7 +28,9 @@ export {
   normalizeDuration,
   normalizeNumberOfSlices,
   normalizeRange,
+  showDishesFormWarnings,
   showMessageOnSuccess,
   validateDishesForm,
-  showDishesFormWarnings
+  validateDurationMinutes,
+  validateDurationSeconds
 };

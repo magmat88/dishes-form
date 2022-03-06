@@ -22,23 +22,23 @@ import {
 } from '../config/constants';
 
 interface WarningsProps {
-  name?: string;
-  preparation_time?: string;
-  type?: string;
-  no_of_slices?: string;
   diameter?: string;
-  spiciness_scale?: string;
+  name?: string;
+  no_of_slices?: string;
+  preparation_time?: string;
   slices_of_bread?: string;
+  spiciness_scale?: string;
+  type?: string;
 }
 
 interface ValuesProps {
-  name?: string;
-  preparation_time?: string;
-  type?: string;
-  no_of_slices?: number;
   diameter?: number;
-  spiciness_scale?: number;
+  name?: string;
+  no_of_slices?: number;
+  preparation_time?: string;
   slices_of_bread?: number;
+  spiciness_scale?: number;
+  type?: string;
 }
 
 export function showDishesFormWarnings(values: ValuesProps): WarningsProps {

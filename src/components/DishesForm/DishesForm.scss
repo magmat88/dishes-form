@@ -21,7 +21,6 @@
         background-color: $color_light;
         display: flex;
         flex-direction: column;
-        // height: 100vh;
         height: 50px;
         padding: 20px;
         width: 90%;
@@ -76,34 +75,18 @@
         @extend %textAlert;
     }
 
-    .dishesForm__input--warning {
-        border-color: $color_warn;
-        color: $color_warn;
-    }
-
-    .dishesForm__input--valid {
-        border-color: $color_valid;
-        color: $color_valid;
-    }
-
-    .dishesForm__input--alert {
-        border-color: $color_alert;
-        color: $color_alert;
-    }
-
     .dishesForm__input--standard {
         border-color: $color_light-grey;
         color: $color_grey;
     }
 
     .dishesForm__input {
-        display: flex;
-        justify-content: flex-start;
         @extend %textStandard;
-        padding: 10px;
         border-radius: 5px;
         border: 2px solid;
-        // color: $color_grey;
+        display: flex;
+        justify-content: flex-start;
+        padding: 10px;
 
         input[type="text"] {
             background: transparent;
