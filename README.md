@@ -1,17 +1,13 @@
-Node + npm version,
-- A short README written in English that explains how to set up the project,
+# Node Version
+Use node v16.13.0
 
-# Getting Started with Create React App
+# Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is created with Create React App boilerplate.
 
-## Available Scripts
+## How to setup the  project
 
-In the project directory, you can run:
-
-Run the app in the development mode:
-### `npm run start`
-
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-
+Clone the repository
+Install the dependencies: npm install
+Use `npm run start` to run the app in the development mode
+Open [http://localhost:3000](http://localhost:3000) to view the app in your browser
