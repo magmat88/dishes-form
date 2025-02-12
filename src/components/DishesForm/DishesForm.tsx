@@ -211,7 +211,7 @@ function DishNameField(): JSX.Element {
     <Field
       component={renderDishesFormInput}
       name={FIELD_NAME_NAME}
-      placeholder="example name"
+      placeholder="enter name"
       label="Dish name"
       type={FIELD_TYPE_TEXT}
     />

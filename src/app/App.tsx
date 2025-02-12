@@ -23,18 +23,18 @@ function handleSubmit(event: any) {
     };
   }
 
-  axios({
-    method: METHOD,
-    url: URL,
-    headers: HEADERS,
-    data: allData,
-  })
-    .then((response) => {
-      alert(showMessageOnSuccess(response));
-    })
-    .catch((error) => {
-      alert(error.message);
-    });
+  // axios({
+  //   method: METHOD,
+  //   url: URL,
+  //   headers: HEADERS,
+  //   data: allData,
+  // })
+  //   .then((response) => {
+      alert(showMessageOnSuccess(allData));
+    // })
+    // .catch((error) => {
+    //   alert(error.message);
+    // });
 }
 
 //source of image: https://pixabay.com/pl/photos/pizza-wz%c3%b3r-tekstura-t%c5%82o-pomidor-5143513/
