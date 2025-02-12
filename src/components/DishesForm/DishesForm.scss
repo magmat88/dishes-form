@@ -3,133 +3,138 @@
 @import "../../styles/variables/variables.scss";
 
 .dishesForm {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin: 0;
-    padding: 0;
-    width: 100%;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  width: 100%;
 
-    .dishesForm__btns {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-    }
+  .dishesForm__btns {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+  }
 
-    .dishesForm__fields {
-        background-color: $color_light;
-        display: flex;
-        flex-direction: column;
-        height: 50px;
-        padding: 20px;
-        width: 90%;
-    }
+  .dishesForm__fields {
+	background-color: $color_light;
+	display: flex;
+	flex-direction: column;
+	height: 50px;
+	padding: 20px;
+	width: 90%;
+  }
 
-    .dishesForm__field {
-        display: flex;
-        flex-direction: column;
-    }
+  .dishesForm__field {
+	display: flex;
+	flex-direction: column;
+  }
 
-    .dishesForm__rangeField {
-        align-items: flex-start;
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
-    }
+  .dishesForm__rangeField {
+	align-items: flex-start;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+  }
 
-    .dishesForm__label {
-        @extend %textLabel;
-        padding: 5px 0;
-        width: 100%;
-    }
+  .dishesForm__label {
+	@extend %textLabel;
+	padding: 5px 0;
+	width: 100%;
+  }
 
-    .dishesForm__error {
-        height: 40px;
-    }
+  .dishesForm__error {
+	height: 40px;
+  }
 
-    .rangeInput {
-        width: 100%;
-    }
+  .rangeInput {
+	width: 100%;
+  }
 
-    .selectedSpiciness {
-        @extend %textLabel;
-        display: flex;
-        justify-content: center;
-        width: 20px;
-        height: 65px;
-        padding: 10px;
-    }
+  .selectedSpiciness {
+	@extend %textLabel;
+	display: flex;
+	justify-content: center;
+	width: 20px;
+	height: 65px;
+	padding: 10px;
+  }
 
-    .dishesForm__label--warning,
-    .text--warning {
-        @extend %textWarning;
-    }
+  .dishesForm__label--warning,
+  .text--warning {
+	@extend %textWarning;
+  }
 
-    .dishesForm__label--valid {
-        @extend %textValid;
-    }
+  .dishesForm__label--valid {
+	@extend %textValid;
+  }
 
-    .dishesForm__label--alert,
-    .text--alert {
-        @extend %textAlert;
-    }
+  .dishesForm__label--alert,
+  .text--alert {
+	@extend %textAlert;
+  }
 
-    .dishesForm__input--standard {
-        border-color: $color_light-grey;
-        color: $color_grey;
-    }
+  .dishesForm__input--standard {
+	border-color: $color_light-grey;
+	color: $color_grey;
+  }
 
-    .dishesForm__input {
-        @extend %textStandard;
-        border-radius: 5px;
-        border: 2px solid;
-        display: flex;
-        justify-content: flex-start;
-        padding: 10px;
+  .dishesForm__input {
+	@extend %textStandard;
+	border-radius: 5px;
+	border: 2px solid;
+	display: flex;
+	justify-content: flex-start;
+	padding: 10px;
 
-        input[type="text"] {
-            background: transparent;
-            border: none;
-            width: 82vw;
-        }
-    }
+	input[type="text"] {
+	  background: transparent;
+	  border: none;
+	  width: 82vw;
+	}
+  }
 
-    .dishesForm__input--valid {
-        border-color: $color_light-grey;
-    }
+  .dishesForm__input--valid {
+	border-color: $color_light-grey;
+  }
 
-    .btn {
-        @extend %btn;
-    }
+  .btn {
+	@extend %btn;
+  }
 
-    .btn--light {
-        @extend %btnLight;
-    }
+  .btn--light {
+	@extend %btnLight;
+  }
 
-    .btn--contrast {
-        @extend %btnContrast;
-    }
+  .btn--contrast {
+	@extend %btnContrast;
+  }
 
-    .text--description {
-        @extend %textDescription;
-    }
+  .btn--contrast:disabled {
+	cursor: not-allowed;
+	background-color: #a1a1a1;
+  }
 
-    @include forMediumScreens($breakpoint-small, $breakpoint-medium) {
-        align-items: center;
+  .text--description {
+	@extend %textDescription;
+  }
 
-        .dishesForm__btns {
-            flex-direction: row;
-        }
+  @include forMediumScreens($breakpoint-small, $breakpoint-medium) {
+	align-items: center;
 
-        .dishesForm__fields {
-            max-width: 60%;
-        }
-    }
+	.dishesForm__btns {
+	  flex-direction: row;
+	}
 
-    @include forLargeScreens($breakpoint-medium) {
-        .dishesForm__fields {
-            width: 50%;
-        }
-    }
+	.dishesForm__fields {
+	  max-width: 60%;
+	}
+  }
+
+  @include forLargeScreens($breakpoint-medium) {
+	.dishesForm__fields {
+	  width: 50%;
+	}
+  }
 }

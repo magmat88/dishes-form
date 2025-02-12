@@ -38,18 +38,37 @@ export function showMessageOnSuccess(response: any) {
 	// return messageOnSuccess;
 
 	const {name, preparation_time, type, no_of_slices, diameter, spiciness_scale, slices_of_bread} = response;
-	let message = `Successfully submitted the dish:\n\n`;
-	message += `- Name: ${name}\n`;
-	message += `- Preparation Time: ${preparation_time}\n`;
+
+	if (!type) {
+		return "Dish type was not selected. Please choose a valid dish type.";
+	}
+
+	let message = `The dish is ready to be ordered:\n\n`;
+	message += `- Name: ${name || "---"}\n`;
+	message += `- Preparation Time: ${preparation_time || "0:00:00"}\n`;
 	message += `- Type: ${type}\n`;
 
 	if (type === "pizza") {
-		message += `- Number of Slices: ${no_of_slices}\n`;
-		message += `- Diameter: ${diameter} cm\n`;
+		if (no_of_slices == null || diameter == null) {
+			message += "- Missing data for pizza: Number of slices or Diameter.\n";
+		} else {
+			message += `- Number of Slices: ${no_of_slices || "0"}\n`;
+			message += `- Diameter: ${diameter || "0.0"} cm\n`;
+		}
 	} else if (type === "soup") {
-		message += `- Spiciness Scale: ${spiciness_scale}/10\n`;
+		if (spiciness_scale == null) {
+			message += "- Missing data for soup: Spiciness scale.\n";
+		} else {
+			message += `- Spiciness Scale: ${spiciness_scale || "---"}/10\n`;
+		}
 	} else if (type === "sandwich") {
-		message += `- Number of Slices of Bread: ${slices_of_bread}\n`;
+		if (slices_of_bread == null) {
+			message += "- Missing data for sandwich: Number of slices of bread.\n";
+		} else {
+			message += `- Number of Slices of Bread: ${slices_of_bread || "0"}\n`;
+		}
+	} else {
+		message += "- Invalid dish type selected.\n";
 	}
 
 	return message;
